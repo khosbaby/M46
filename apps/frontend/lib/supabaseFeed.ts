@@ -111,12 +111,12 @@ export async function fetchFeedFromSupabase(tag?: string): Promise<ApiPost[]> {
     const stats = statsByPost.get(row.id);
     const author = usersById.get(row.owner_id);
     const profile = profilesByUser.get(row.owner_id);
-    const aiTags = tags
-      .map(tag => {
-        if (!tag.tag) return null;
-        return { tag: tag.tag, trust: typeof tag.trust === 'number' ? tag.trust : undefined };
-      })
-      .filter((value): value is { tag: string; trust?: number } => Boolean(value));
+    const aiTags = tags.reduce<Array<{ tag: string; trust?: number }>>((acc, tagRow) => {
+      if (!tagRow.tag) return acc;
+      const trust = typeof tagRow.trust === 'number' ? tagRow.trust : undefined;
+      acc.push({ tag: tagRow.tag, trust });
+      return acc;
+    }, []);
     return {
       id: row.id,
       title: row.title,
@@ -198,9 +198,12 @@ export async function fetchPostDetailFromSupabase(id: string): Promise<ApiPost |
     }),
   ]);
 
-  const tags = tagsRows
-    .map(tag => (tag.tag ? { tag: tag.tag, trust: typeof tag.trust === 'number' ? tag.trust : undefined } : null))
-    .filter((value): value is { tag: string; trust?: number } => Boolean(value));
+  const tags = tagsRows.reduce<Array<{ tag: string; trust?: number }>>((acc, tagRow) => {
+    if (!tagRow.tag) return acc;
+    const trust = typeof tagRow.trust === 'number' ? tagRow.trust : undefined;
+    acc.push({ tag: tagRow.tag, trust });
+    return acc;
+  }, []);
   const stats = statsRow[0];
   const author = userRow[0];
   const profile = profileRow[0];
