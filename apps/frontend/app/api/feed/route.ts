@@ -19,7 +19,7 @@ const isTagMatch = (candidate: unknown, tag: string) => {
   return false;
 };
 
-export async function buildFeedResponse(options: FeedFetchOptions = {}): Promise<FeedResponse> {
+async function buildFeedResponse(options: FeedFetchOptions = {}): Promise<FeedResponse> {
   const { tag, apiBase = API_BASE, fetchImpl = fetch, samplePosts = SAMPLE_POSTS } = options;
   if (apiBase) {
     try {
