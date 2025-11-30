@@ -1,6 +1,6 @@
 import './globals.css';
 import './legacy.css';
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import SiteHeader from '@/components/SiteHeader';
 import SiteFooter from '@/components/SiteFooter';
 import { UiPreferencesProvider } from '@/components/providers/UiPreferencesProvider';
@@ -18,16 +18,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ja">
       <body>
-        <UiPreferencesProvider>
-          <SessionProvider>
-            <div className="app-shell">
-              <SiteHeader />
-              <div className="app-shell__spacer" aria-hidden="true" />
-              <main>{children}</main>
-              <SiteFooter />
-            </div>
-          </SessionProvider>
-        </UiPreferencesProvider>
+        <Suspense fallback={null}>
+          <UiPreferencesProvider>
+            <SessionProvider>
+              <div className="app-shell">
+                <Suspense fallback={null}>
+                  <SiteHeader />
+                </Suspense>
+                <div className="app-shell__spacer" aria-hidden="true" />
+                <main>
+                  <Suspense fallback={null}>{children}</Suspense>
+                </main>
+                <SiteFooter />
+              </div>
+            </SessionProvider>
+          </UiPreferencesProvider>
+        </Suspense>
       </body>
     </html>
   );

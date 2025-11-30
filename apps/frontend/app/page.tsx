@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import FeedExperience from '@/components/FeedExperience';
 import { fetchFeed } from '@/lib/api';
 import { ApiPost } from '@/lib/types';
@@ -5,6 +6,10 @@ import { SAMPLE_POSTS } from '@/lib/samplePosts';
 import AuthGateway from '@/components/auth/AuthGateway';
 const FEED_CACHE_TTL_MS = 5 * 60 * 1000;
 let cachedFeed: { posts: ApiPost[]; fetchedAt: number } | null = null;
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 export default async function HomePage() {
   let posts: ApiPost[] = [];
@@ -26,5 +31,9 @@ export default async function HomePage() {
       console.error('Failed to fetch feed, using SAMPLE_POSTS', err);
     }
   }
-  return <AuthGateway feed={<FeedExperience initialPosts={posts} fallbackMessage={fallbackMessage} />} />;
+  return (
+    <Suspense fallback={null}>
+      <AuthGateway feed={<FeedExperience initialPosts={posts} fallbackMessage={fallbackMessage} />} />
+    </Suspense>
+  );
 }
