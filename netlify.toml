@@ -1,6 +1,5 @@
 [build]
-  base = "apps/frontend"
-  command = "npm run build"
+  command = "cd apps/frontend && npm run build"
   publish = "apps/frontend/.next"
 
 [[plugins]]
