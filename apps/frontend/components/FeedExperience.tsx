@@ -150,7 +150,7 @@ export default function FeedExperience({ initialPosts, fallbackMessage }: Props)
       const parsed = JSON.parse(raw);
       const tags = Array.isArray(parsed?.tags) ? parsed.tags.filter((value: unknown) => typeof value === 'string') : [];
       if (tags.length) {
-        setRecentTags(tags.map(tag => tag.toLowerCase()));
+        setRecentTags(tags.map((tag: string) => tag.toLowerCase()));
       }
     } catch {
       // ignore parse errors
