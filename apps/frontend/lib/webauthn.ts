@@ -85,7 +85,10 @@ export async function createRegistrationCredential(options: RegistrationOptions)
     response: {
       clientDataJSON: toBase64Url(response.clientDataJSON),
       attestationObject: response.attestationObject ? toBase64Url(response.attestationObject) : undefined,
-      transports: typeof response.getTransports === 'function' ? response.getTransports() ?? undefined : undefined,
+      transports:
+        typeof response.getTransports === 'function'
+          ? ((response.getTransports() as AuthenticatorTransport[] | undefined) ?? undefined)
+          : undefined,
     },
     clientExtensionResults: credential.getClientExtensionResults(),
   };
