@@ -89,25 +89,26 @@ const randomId = () => {
 
 function normalizeComments(raw: unknown): ApiComment[] {
   if (!Array.isArray(raw)) return [];
-  return raw
-    .map(item => {
-      if (!item || typeof item !== 'object') return null;
-      const data = item as Record<string, unknown>;
-      const author = normalizeAuthor(data.author);
-      const createdAt =
-        typeof data.created_at === 'string'
-          ? data.created_at
-          : typeof data.createdAt === 'string'
-            ? data.createdAt
-            : new Date().toISOString();
-      return {
-        id: typeof data.id === 'string' ? data.id : randomId(),
-        body: typeof data.body === 'string' ? data.body : '',
-        createdAt,
-        author,
-      };
-    })
-    .filter((value): value is ApiComment => Boolean(value?.body));
+  return raw.reduce<ApiComment[]>((acc, item) => {
+    if (!item || typeof item !== 'object') return acc;
+    const data = item as Record<string, unknown>;
+    const body = typeof data.body === 'string' ? data.body : '';
+    if (!body) return acc;
+    const author = normalizeAuthor(data.author);
+    const createdAt =
+      typeof data.created_at === 'string'
+        ? data.created_at
+        : typeof data.createdAt === 'string'
+          ? data.createdAt
+          : new Date().toISOString();
+    acc.push({
+      id: typeof data.id === 'string' ? data.id : randomId(),
+      body,
+      createdAt,
+      author,
+    });
+    return acc;
+  }, []);
 }
 
 export function normalizePost(raw: any): ApiPost {
