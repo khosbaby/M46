@@ -12,7 +12,7 @@ const SUPABASE_SERVICE_KEY =
 const REST_BASE_URL = SUPABASE_URL ? `${SUPABASE_URL.replace(/\/$/, '')}/rest/v1` : '';
 
 type RequestOptions = {
-  method?: 'GET' | 'POST';
+  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   searchParams?: Record<string, string>;
   body?: unknown;
   prefer?: string;
