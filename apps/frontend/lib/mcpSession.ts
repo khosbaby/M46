@@ -21,7 +21,11 @@ export async function resolveSession(client: SupabaseClientAdapter, token: strin
     limit: 1,
   });
   const sessionRow = sessionResult.rows[0];
-  if (!sessionRow || !sessionRow.user_id) {
+  if (!sessionRow) {
+    throw new SessionError('invalid_session', 401);
+  }
+  const userId = typeof sessionRow.user_id === 'string' ? sessionRow.user_id : '';
+  if (!userId) {
     throw new SessionError('invalid_session', 401);
   }
   const expiresAt = typeof sessionRow.expires_at === 'string' ? sessionRow.expires_at : '';
@@ -37,7 +41,7 @@ export async function resolveSession(client: SupabaseClientAdapter, token: strin
   const userResult = await client.select({
     table: 'app_users',
     columns: ['id', 'handle'],
-    filters: { id: sessionRow.user_id },
+    filters: { id: userId },
     limit: 1,
   });
   const user = userResult.rows[0];
