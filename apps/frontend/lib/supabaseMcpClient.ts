@@ -3,18 +3,19 @@ import 'server-only';
 import { supabaseRest } from './supabaseRest';
 
 type Primitive = string | number | boolean | null;
+type FilterValue = Primitive | Primitive[];
 
 export type SupabaseSelectOptions = {
   table: string;
   columns?: string[];
-  filters?: Record<string, Primitive>;
+  filters?: Record<string, FilterValue>;
   limit?: number;
   orderBy?: { column: string; ascending?: boolean };
 };
 
 export type SupabaseMutationOptions = {
   table: string;
-  filters: Record<string, Primitive>;
+  filters: Record<string, FilterValue>;
 };
 
 export type SupabaseInsertOptions = {
@@ -40,20 +41,26 @@ export class SupabaseMcpError extends Error {
   }
 }
 
-function formatFilterValue(value: Primitive) {
+function formatFilterValue(value: FilterValue) {
+  if (Array.isArray(value)) {
+    if (!value.length) {
+      throw new SupabaseMcpError('supabase_mcp_empty_filter');
+    }
+    return `in.(${value.join(',')})`;
+  }
   if (value === null) return 'is.null';
   if (typeof value === 'boolean') return `eq.${value ? 'true' : 'false'}`;
   return `eq.${value}`;
 }
 
-function ensureFilters(filters: Record<string, Primitive>) {
+function ensureFilters(filters: Record<string, FilterValue>) {
   if (!filters || Object.keys(filters).length === 0) {
     throw new SupabaseMcpError('supabase_mcp_filters_required');
   }
   return filters;
 }
 
-function buildFilterSearchParams(filters: Record<string, Primitive> = {}) {
+function buildFilterSearchParams(filters: Record<string, FilterValue> = {}) {
   const params: Record<string, string> = {};
   for (const [column, value] of Object.entries(filters)) {
     params[column] = formatFilterValue(value);
