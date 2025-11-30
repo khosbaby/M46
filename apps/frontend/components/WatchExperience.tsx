@@ -150,7 +150,7 @@ export default function WatchExperience({ playlist, initialPost }: Props) {
   const [isFetchingDetails, setFetchingDetails] = useState(false);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
   const scrollRaf = useRef<number | null>(null);
   const isProgrammaticScroll = useRef(false);
   const scrollReleaseTimeout = useRef<NodeJS.Timeout | null>(null);
