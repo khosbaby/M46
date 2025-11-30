@@ -3,29 +3,28 @@ import { ApiAuthorProfile, ApiComment, ApiPost, ApiPostStats, ApiTag } from './t
 
 export function normalizeTags(rawTags: unknown): ApiTag[] {
   if (!Array.isArray(rawTags)) return [];
-  return rawTags
-    .map(tag => {
-      if (typeof tag === 'string') {
-        return { tag };
-      }
-      if (tag && typeof tag === 'object' && 'tag' in tag) {
-        const item = tag as { tag: unknown; trust?: unknown };
-        const normalizedTag = typeof item.tag === 'string' ? item.tag : String(item.tag ?? '');
-        const trust =
-          typeof item.trust === 'number'
-            ? item.trust
-            : typeof item.trust === 'string'
-              ? Number(item.trust)
-              : undefined;
-        if (!normalizedTag) return null;
-        return {
-          tag: normalizedTag,
-          trust: Number.isFinite(trust) ? trust : undefined,
-        };
-      }
-      return null;
-    })
-    .filter((value): value is ApiTag => Boolean(value?.tag));
+  return rawTags.reduce<ApiTag[]>((acc, tag) => {
+    if (typeof tag === 'string' && tag) {
+      acc.push({ tag });
+      return acc;
+    }
+    if (tag && typeof tag === 'object' && 'tag' in tag) {
+      const item = tag as { tag: unknown; trust?: unknown };
+      const normalizedTag = typeof item.tag === 'string' ? item.tag : String(item.tag ?? '');
+      if (!normalizedTag) return acc;
+      const trustValue =
+        typeof item.trust === 'number'
+          ? item.trust
+          : typeof item.trust === 'string'
+            ? Number(item.trust)
+            : undefined;
+      acc.push({
+        tag: normalizedTag,
+        trust: Number.isFinite(trustValue) ? trustValue : undefined,
+      });
+    }
+    return acc;
+  }, []);
 }
 
 function coerceNumber(value: unknown, fallback = 0) {
