@@ -3,13 +3,13 @@ import { ApiAuthorProfile, ApiComment, ApiPost, ApiPostStats, ApiTag } from './t
 
 export function normalizeTags(rawTags: unknown): ApiTag[] {
   if (!Array.isArray(rawTags)) return [];
-  return rawTags.reduce<ApiTag[]>((acc, tag) => {
-    if (typeof tag === 'string' && tag) {
-      acc.push({ tag });
+  return rawTags.reduce<ApiTag[]>((acc, tagEntry: unknown) => {
+    if (typeof tagEntry === 'string' && tagEntry) {
+      acc.push({ tag: tagEntry });
       return acc;
     }
-    if (tag && typeof tag === 'object' && 'tag' in tag) {
-      const item = tag as { tag: unknown; trust?: unknown };
+    if (tagEntry && typeof tagEntry === 'object' && 'tag' in tagEntry) {
+      const item = tagEntry as { tag: unknown; trust?: unknown };
       const normalizedTag = typeof item.tag === 'string' ? item.tag : String(item.tag ?? '');
       if (!normalizedTag) return acc;
       const trustValue =
@@ -89,7 +89,7 @@ const randomId = () => {
 
 function normalizeComments(raw: unknown): ApiComment[] {
   if (!Array.isArray(raw)) return [];
-  return raw.reduce<ApiComment[]>((acc, item) => {
+  return raw.reduce<ApiComment[]>((acc, item: unknown) => {
     if (!item || typeof item !== 'object') return acc;
     const data = item as Record<string, unknown>;
     const body = typeof data.body === 'string' ? data.body : '';
@@ -115,7 +115,7 @@ export function normalizePost(raw: any): ApiPost {
   const rawAiTags = normalizeTags(raw.ai_tags ?? raw.aiTags ?? raw.tags);
   let previewSeconds: number | undefined;
   const aiTags = rawAiTags
-    .map(tag => {
+    .map((tag: ApiTag) => {
       if (tag.tag.startsWith('preview:')) {
         const value = Number(tag.tag.replace(/^preview:/i, ''));
         if (!Number.isNaN(value)) {
@@ -127,9 +127,9 @@ export function normalizePost(raw: any): ApiPost {
     })
     .filter((value): value is ApiTag => Boolean(value));
   const tags =
-    Array.isArray(raw.tags) && raw.tags.every(tag => typeof tag === 'string')
-      ? (raw.tags as string[]).filter(tag => !/^preview:/i.test(tag))
-      : aiTags.map(tag => tag.tag);
+    Array.isArray(raw.tags) && raw.tags.every((tagEntry: unknown): tagEntry is string => typeof tagEntry === 'string')
+      ? (raw.tags as string[]).filter((tag: string) => !/^preview:/i.test(tag))
+      : aiTags.map((tag: ApiTag) => tag.tag);
   const stats = normalizeStats(raw.post_stats ?? raw.stats);
   const author = normalizeAuthor(raw.author ?? raw);
   const storageKey = typeof raw.storage_key === 'string' ? raw.storage_key : typeof raw.storageKey === 'string' ? raw.storageKey : '';
