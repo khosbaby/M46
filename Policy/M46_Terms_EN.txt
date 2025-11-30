@@ -1,0 +1,64 @@
+
+M46 Terms of Service, Community Guidelines, and Privacy Policy (English Version)
+------------------------------------------------------------
+
+[Article 1: Purpose]
+These Terms of Service (“Terms”) set forth the conditions for using M46 (“the Service”). By using the Service, the user (“User”) agrees to be bound by these Terms.
+
+[Article 2: Scope]
+1. These Terms apply to all Users of the Service.
+2. Any guidelines or policies separately established by the Service shall constitute a part of these Terms.
+
+[Article 3: Age Restriction]
+1. Users under the age of 13 are not permitted to use the Service.
+2. Access to adult-oriented content (“Adult Content”) is available only to Users who have turned off “Save Mode” and self-declared that they have reached the legal age of majority in their jurisdiction.
+3. No government-issued identification is required; however, the operator reserves the right to suspend or terminate accounts found to have made false declarations.
+
+[Article 4: Posts and Comments]
+1. Users are solely responsible for any content they post or comment (“Content”).
+2. The operator may delete or hide Content without prior notice if deemed unlawful, inappropriate, or in violation of these Terms.
+3. Comments are treated as equivalent to posts and subject to the same moderation and removal standards.
+4. Backup copies may be retained for operational purposes, but their retention does not imply any legal guarantee of preservation.
+
+[Article 5: Prohibited Conduct]
+The following acts are strictly prohibited:
+- Acts that violate laws or public order and morals.
+- Any depiction or suggestion of minors in a sexual manner.
+- Non-consensual sexual acts, revenge pornography, voyeuristic content.
+- Hate speech, threats, harassment, or defamation.
+- Infringement of copyrights, publicity rights, or privacy rights.
+- False age declaration or attempts to circumvent Save Mode.
+
+[Article 6: Intellectual Property Rights]
+1. Copyright of posts and comments belongs to the User.
+2. The operator is granted a worldwide, non-exclusive, royalty-free license to use, reproduce, translate, and display the Content as necessary for the operation, promotion, and optimization of the Service.
+
+[Article 7: Disclaimer]
+1. The operator makes no warranty as to the legality, accuracy, or reliability of any Content.
+2. The operator assumes no responsibility for disputes between Users or with third parties.
+3. The operator shall not be liable for any damages arising from modification, suspension, or termination of the Service.
+
+[Article 8: Governing Law and Jurisdiction]
+These Terms shall be governed by and construed under the laws of Japan. The Tokyo District Court shall have exclusive jurisdiction over any disputes.
+
+------------------------------------------------------------
+[M46 Community Guidelines]
+
+1. The Service respects freedom of expression but prioritizes compliance with law and public safety.
+2. Adult Content is viewable only when Save Mode is turned OFF.
+3. Prohibited content includes:
+   - Child sexual abuse material, non-consensual sexual acts, violence, hate speech.
+   - Copyright infringement, exposure of personal data, spam.
+4. The operator may remove or restrict content reported as inappropriate.
+
+------------------------------------------------------------
+[M46 Privacy Policy]
+
+1. The Service handles personal data in compliance with applicable laws including Japan’s APPI, the EU GDPR, and the California CCPA.
+2. Collected data: email, age, country, posts, logs, and cookies.
+3. Purpose: account management, fraud prevention, age verification, analytics, and (if consented) advertising.
+4. Third-party disclosure: only with user consent or legal obligation.
+5. Minors: under 13 prohibited; under 18 may not view or post Adult Content.
+6. Policy updates: may occur without prior notice; continued use constitutes acceptance.
+
+------------------------------------------------------------
