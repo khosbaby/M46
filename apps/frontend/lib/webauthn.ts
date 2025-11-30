@@ -1,7 +1,7 @@
 const textEncoder = new TextEncoder();
 
-function encodeToBuffer(value: string): Uint8Array {
-  return textEncoder.encode(value);
+function encodeToBuffer(value: string): ArrayBuffer {
+  return textEncoder.encode(value).buffer;
 }
 
 function toBase64Url(buffer: ArrayBuffer | Uint8Array): string {
