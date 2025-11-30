@@ -10,14 +10,17 @@ export function normalizeTags(rawTags: unknown): ApiTag[] {
       }
       if (tag && typeof tag === 'object' && 'tag' in tag) {
         const item = tag as { tag: unknown; trust?: unknown };
+        const normalizedTag = typeof item.tag === 'string' ? item.tag : String(item.tag ?? '');
+        const trust =
+          typeof item.trust === 'number'
+            ? item.trust
+            : typeof item.trust === 'string'
+              ? Number(item.trust)
+              : undefined;
+        if (!normalizedTag) return null;
         return {
-          tag: typeof item.tag === 'string' ? item.tag : String(item.tag ?? ''),
-          trust:
-            typeof item.trust === 'number'
-              ? item.trust
-              : typeof item.trust === 'string'
-                ? Number(item.trust)
-                : undefined,
+          tag: normalizedTag,
+          trust: Number.isFinite(trust) ? trust : undefined,
         };
       }
       return null;
